@@ -1,0 +1,457 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Happy Birthday Jassraj 🎂</title>
+
+<style>
+.custom-layout{
+border:2px solid rgba(255,255,255,0.2);
+border-radius:20px;
+padding:30px;
+}
+
+.top-heading{
+text-align:center;
+margin-bottom:30px;
+}
+
+.content-row{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:50px;
+flex-wrap:wrap;
+}
+
+.left-images{
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.middle-text{
+max-width:450px;
+text-align:left;
+line-height:1.6;
+}
+
+.card{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+}
+
+.open .lock-box{
+opacity:0;
+transform:scale(0.9);
+transition:0.5s;
+}
+
+.door{
+position:absolute;
+top:0;
+width:50%;
+height:100%;
+background:rgba(0,0,0,0.9);
+z-index:1;
+transition:1s ease;
+}
+
+.left-door{
+left:0;
+}
+
+.right-door{
+right:0;
+}
+
+.open .left-door{
+transform:translateX(-100%);
+}
+
+.open .right-door{
+transform:translateX(100%);
+}
+
+/* keep lock-box above doors */
+.lock-box{
+position:relative;
+z-index:2;
+}
+
+/* LOCK SCREEN */
+#lock-screen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+.lock-box{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+box-shadow:0 0 40px rgba(0,0,0,0.6);
+}
+#display{
+font-size:30px;
+letter-spacing:10px;
+margin:20px;
+}
+
+.keypad button{
+width:60px;
+height:60px;
+margin:8px;
+font-size:20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+#error{
+color:#ff6b6b;
+margin-top:10px;
+}
+
+.memory-pic{
+display:block;
+width:100%;
+max-width:260px;
+height:auto;
+margin:20px auto;
+border-radius:10px;
+box-sizing:border-box;
+}
+.card{
+overflow:hidden;
+word-wrap:break-word;
+}
+
+/* GENERAL */
+html{ scroll-behavior:smooth; }
+
+body{
+background:linear-gradient(180deg,#0f0c29,#302b63,#24243e);
+color:white;
+}
+
+/* SECTION */
+.section{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:60px 20px;
+scroll-snap-align:start;
+}
+
+/* CARD */
+.card{
+background:rgba(255,182,193,0.25);
+padding:40px;
+border-radius:20px;
+max-width:750px;
+text-align:center;
+border:2px solid rgba(255,255,255,0.4);
+box-shadow:0 0 20px rgba(0,0,0,0.2);
+opacity:0;
+transform:translateY(50px);
+transition:1s;
+}
+.card.show{
+opacity:1;
+transform:translateY(0);
+}
+
+/* MEMORY */
+.memory-layout{
+display:flex;
+gap:40px;
+flex-wrap:wrap;
+align-items:center;
+justify-content:center;
+}
+.memory-layout img{
+width:220px;
+border-radius:12px;
+}
+
+/* BARFI SECTION */
+.barfi-container{
+display:flex;
+gap:40px;
+flex-wrap:wrap;
+align-items:center;
+justify-content:center;
+}
+.barfi-images{
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+.barfi-img{
+width:200px;
+border-radius:15px;
+}
+
+/* CHAOS */
+.chaos-img{
+width:200px;
+border-radius:15px;
+transition:0.3s;
+}
+.chaos-img:hover{
+transform:scale(1.05);
+}
+
+/* SPARKLES */
+#sparkle-container{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+}
+.sparkle{
+position:absolute;
+background:white;
+border-radius:50%;
+animation:sparkleFloat linear forwards;
+}
+@keyframes sparkleFloat{
+0%{transform:translateY(100vh);opacity:0;}
+50%{opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<audio id="bgmusic" loop>
+  <source src="deslocado.mp3" type="audio/mpeg">
+</audio>
+
+
+<div id="lock-screen">
+  <!-- ADD THESE TWO LINES -->
+  <div class="door left-door"></div>
+  <div class="door right-door"></div>
+  <div class="lock-box">
+    <h2>Enter Password 🔐</h2>
+    
+    <div id="display">____</div>
+
+    <div class="keypad">
+      <button onclick="press(1)">1</button>
+      <button onclick="press(2)">2</button>
+      <button onclick="press(3)">3</button><br>
+
+      <button onclick="press(4)">4</button>
+      <button onclick="press(5)">5</button>
+      <button onclick="press(6)">6</button><br>
+
+      <button onclick="press(7)">7</button>
+      <button onclick="press(8)">8</button>
+      <button onclick="press(9)">9</button><br>
+
+      <button onclick="erase()">⌫</button>
+      <button onclick="press(0)">0</button>
+      <button onclick="check()">✔</button>
+    </div>
+
+    <p id="error"></p>
+  </div>
+</div>
+
+<div id="sparkle-container"></div>
+
+<audio autoplay loop id="bgmusic">
+<source src="until_i_found_you.mp3" type="audio/mpeg">
+</audio>
+
+<!-- SECTION 1 -->
+<div class="section">
+<div class="card">
+<h1 id="type1"></h1>
+<p>May Waheguru jii give his all blessings to you.. Enjoy this day to the fullest, seek blessings from parents, god.. Eat all the food, cherish this day the most.. and my bestest wishes should always be there for you!!✨✨</p>
+</div>
+</div>
+
+<!-- SECTION 2 -->
+<div class="section">
+
+  <div class="card custom-layout">
+
+    <!-- HEADING -->
+    <h1 class="top-heading">
+      To My Favourite Person 🌸
+    </h1>
+
+    <!-- CONTENT ROW -->
+    <div class="content-row">
+
+      <!-- LEFT SIDE IMAGES -->
+      <div class="left-images">
+        <img src="Jass2.jpg" class="barfi-img">
+        <img src="Jass.jpg" class="barfi-img">
+      </div>
+
+      <!-- MIDDLE TEXT -->
+      <div class="middle-text">
+        <p>
+          So.. Barfiii..!! I am so excited for your birthdayy... like from the starting of this year, we always counted months together, when will your birthday gonna come.. I am so grateful to have you in my life.. like god himself send me his miniature version in the form of you..🌸 The first day when we met, I never thought that you'll be my bestest friend ever... I can never forget those days when you consoled me, comforted me, like I was your own one of the family member...✨✨
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+<!-- SECTION 3 -->
+<div class="section">
+<div class="card">
+<h1>Vibes!🤌🏻</h1>
+<div class="memory-layout">
+<img src="Jass3.jpg">
+<img src="Jass4.jpg">
+<p>Those endless midnight talks where we explored our own fantasies together, our perspectives, our thoughts and all.. I never expected that I would be ever gonna experience those in such a young age, until you came.. Garba Night.. one of my personal favourite experience, where I first spent time with you outside the school.. Even when I first visited your house with Himanshu was also a great experience, like it was for the first time that I had ever gone to my female friend's birthday party😭😭.. Your gift which you had gifted me on my birthday.., like damnn it is my bestest gift ever.. that i had got from anybody... Every time spent with you always brings peace to my inner soul and to my environment.. You're a Goddess mannn!!! </p>
+</div>
+</div>
+</div>
+
+<!-- CHAOS -->
+<div class="section">
+<div class="card">
+<h1>Chaotic Us 💥</h1>
+<p>From the most random talks to the most unnecessary arguments 😂 We literally turn the simplest things into chaos... Sometimes we talk sense… but most of the time it's just pure nonsense 💀 From laughing at the dumbest things to making no sense at all — that’s what makes it fun. And honestly… I wouldn’t trade this chaos for anything.</p>
+<img src="chaos1.jpg" class="chaos-img">
+</div>
+</div>
+
+ <!-- SECTION 4 -->
+ <div class="section">
+ <div class="card">
+ <h1>What You Mean To Me 💌</h1> 
+<img src="Uss.jpg" class="memory-pic"> 
+<p> You mean to me alot.. besides being friends, you're my personal therapist, my "bhai"😂, a life guru, motivational speaker, a comedian and more.. You're my most favorite person, that I could ever get in such an age... The most commendable thing that this friendship ever bought to me was the "possessiveness" like I never felt that someone would be this possessive for me. Thankyou buddy for there with me..✌🏻🌸💗 And remember.. you once made me promise "kuch bhi ho jae tum mujhe chhod ke nai jaoge" — I still remember that. I will always be there for you when the world stands against you. </p>
+ </div>
+ </div> 
+
+<!-- SECTION 5 --> 
+<div class="section">
+ <div class="card">
+ <h1 id="type2">
+</h1> 
+<p> May this day be filled with joy and celebrations.. and may Waheguru jii gives his all blessings to you...✨✨ </p>
+ </div>
+ </div> 
+<script>
+
+/* typing */
+function typeText(el,text,speed){
+let i=0;
+function typing(){
+if(i<text.length){
+el.innerHTML+=text.charAt(i);
+i++;
+setTimeout(typing,speed);
+}}
+typing();
+}
+
+typeText(document.getElementById("type1"),"Happiest Birthday 🎉",70);
+typeText(document.getElementById("type2"),"Again Happy Birthday 🎂",70);
+
+/* animation */
+const cards=document.querySelectorAll(".card");
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting){
+e.target.classList.add("show");
+}
+});
+});
+cards.forEach(c=>observer.observe(c));
+
+/* sparkles */
+const container=document.getElementById("sparkle-container");
+setInterval(()=>{
+const s=document.createElement("div");
+s.className="sparkle";
+s.style.left=Math.random()*100+"%";
+s.style.width="5px";
+s.style.height="5px";
+s.style.animationDuration="6s";
+container.appendChild(s);
+setTimeout(()=>s.remove(),6000);
+},200);
+
+</script>
+
+<script>
+let input = "";
+const correctPassword = "2124"; 
+
+function press(num){
+  if(input.length < 4){
+    input += num;
+    updateDisplay();
+  }
+}
+
+function erase(){
+  input = input.slice(0, -1);
+  updateDisplay();
+}
+
+function updateDisplay(){
+  document.getElementById("display").innerText =
+    input.padEnd(4, "_");
+}
+
+function check(){
+  if(input === correctPassword){
+    const lock = document.getElementById("lock-screen");
+lock.classList.add("open");
+
+const music = document.getElementById("bgmusic");
+music.volume = 0.3;
+music.play();
+
+setTimeout(() => {
+  lock.style.display = "none";
+}, 1000);
+
+  } else {
+    document.getElementById("error").innerText = "Wrong Password";
+    input = "";
+    updateDisplay();
+  }
+}
+</script>
+<script>
+document.addEventListener("click", () => {
+  const music = document.getElementById("bgmusic");
+  music.volume = 0.3;
+  music.play();
+}, { once: true });
+</script>
+
+</body>
+</html>
